@@ -11,6 +11,14 @@
     <body>
         <a-scene>
 
+            <a-assets timeout="10000">
+                <a-asset-item id="bread_model" src="assets/models/low_poly_bread/scene.gltf"></a-asset-item>
+                <a-asset-item id="cheese_model" src="assets/models/cheese/scene.gltf"></a-asset-item>
+            </a-assets>
+
+            <a-entity id="breadThing" position="0 2 0" rotation="90 0 90" scale="0.1 0.1 0.1" gltf-model="#bread_model"></a-entity>
+            <a-entity id="cheeseThing" position="2 2 0" rotation="0 0 0" scale="0.5 0.5 0.5" gltf-model="#cheese_model"></a-entity>
+
             <!--Setting up the enviornment-->
             <a-entity environment="preset:default;"></a-entity>
             
@@ -26,7 +34,7 @@
             </a-entity>
             
 
-            
+
         </a-scene>
 
     </body>

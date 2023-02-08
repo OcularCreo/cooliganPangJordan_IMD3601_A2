@@ -13,18 +13,42 @@ window.onload = function(){
     let curY = 0; 
     let curZ = 0;
 
+    let sandNum = 0; //tracks number of items that make up the sandwhich
+
     //Add topping to sandwhich
     btn.addEventListener('click', function(){
        
-        //Creating the bottom bread thing
-        let bottomBread = document.createElement("a-box");
-        
-        //standard bottom bread size
-        bottomBread.setAttribute("width", 0.5);
-        bottomBread.setAttribute("height", 0.1);
-        bottomBread.setAttribute("depth", 0.5);
+        let toppings = ["a-box", "a-cylinder"];
+        let ingred = 0;
 
-        sandwhich.appendChild(bottomBread);
+        if(sandNum == 0){
+            //Creating the bottom bread thing
+            ingred = document.createElement("a-box");
+            
+            //standard bottom bread size
+            ingred.setAttribute("width", 0.75);
+            ingred.setAttribute("height", 0.1);
+            ingred.setAttribute("depth", 0.75);
+
+        } else {
+
+            let idx = Math.round(Math.random() * 1);
+            console.log(idx);
+            console.log(toppings[idx]);
+            ingred = document.createElement(toppings[idx]);
+
+            //standard bottom bread size
+            ingred.setAttribute("width", 0.75);
+            ingred.setAttribute("height", 0.1);
+            ingred.setAttribute("depth", 0.75);
+
+        }
+
+        ingred.setAttribute("position", {x:0, y:curY, z:0});
+
+        sandwhich.appendChild(ingred);
+        curY += 0.1;
+        sandNum++;
 
     });
 
