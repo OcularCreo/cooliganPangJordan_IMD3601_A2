@@ -10,18 +10,22 @@
     </head>
     <body>
         <a-scene>
-            
-            
 
             <!--Setting up the enviornment-->
-            <a-entity environment="preset:goaland;"></a-entity>
+            <a-entity environment="preset:default;"></a-entity>
             
+            <!--Temporary button-->
             <div style="position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;">
                 <button id ="btn">Click to create cube</button>
             </div>
+
+            <!--In code asset of a table-->
+            <a-entity position="3 0 0" id="table">
+                <a-cylinder position="0 1 0" radius="2" height="0.1" color="#4B371C"></a-cylinder>
+                <a-cylinder position="0 0.5 0" radius="0.15" height="1" color="#4B371C"></a-cylinder> 
+            </a-entity>
             
-            <a-box width="0.75" height="2" depth="10"></a-box>
-            <a-box position="0 2 0" width="0.1" height="0.1" depth="10"></a-box>
+
             
         </a-scene>
 
