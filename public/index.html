@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello, WebVR! - A-Frame</title>
+        <meta name="description" content="Hello, WebVR! - A-Frame">
+        <!--note we are using the most recent-->
+        <script src="/js/test.js"></script>
+        <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+        <script src="js/aframe-environment-component.min.js"></script>
+    </head>
+    <body>
+        <a-scene>
+            
+            
+
+            <!--Setting up the enviornment-->
+            <a-entity environment="preset:goaland;"></a-entity>
+            
+            <div style="position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;">
+                <button id ="btn">Click to create cube</button>
+            </div>
+            
+            <a-box width="0.75" height="2" depth="10"></a-box>
+            <a-box position="0 2 0" width="0.1" height="0.1" depth="10"></a-box>
+            
+        </a-scene>
+
+    </body>
+</html>
