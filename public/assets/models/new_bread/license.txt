@@ -1,0 +1,11 @@
+Model Information:
+* title:	Bread for Jordan
+* source:	https://sketchfab.com/3d-models/bread-for-jordan-40ba43841cf04045aca5f529c1da7d1a
+* author:	PatrickStevens (https://sketchfab.com/PatrickStevens)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Bread for Jordan" (https://sketchfab.com/3d-models/bread-for-jordan-40ba43841cf04045aca5f529c1da7d1a) by PatrickStevens (https://sketchfab.com/PatrickStevens) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

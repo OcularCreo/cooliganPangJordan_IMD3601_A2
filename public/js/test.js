@@ -11,18 +11,47 @@ class assetProp {
     }
 }
 
+//list of props
+const bread     = new assetProp("breadIngred", "#betterBread_model", "0 0 0", "0.8 0.8 0.8", [0, 0.0, 0],  0.08);
+const cheese    = new assetProp("cheeseIngred", "#cheese_model", "0 0 0", "0.75 0.45 0.75", [0, 0, 0],  0.23);
+const tomato    = new assetProp("tomIngred", "#tomato_model", "0 0 0", "7.5 7.5 7.5", [0, 0, 0],  0.07);
+const meat      = new assetProp("meatIngred", "#meat_model", "0 0 -45", "0.002 0.002 0.002", [-0.3, -0.05, 0],  0.3);
+const pizza     = new assetProp("pizIngred", "#pizza_model", "0 0 0", "0.04 0.04 0.04", [0, 0, 0],  0.04);
+const rat       = new assetProp("ratIngred", "#rat_model", "90 0 0", "0.003 0.003 0.003", [0, 0, -0.2],  0.1);
+const chicken   = new assetProp("chickIngred", "#chicken_model", "0 0 0", "0.02 0.02 0.02", [0, 0.07, 0],  0.17);
+
+let ingredList = [bread, cheese, tomato, meat, pizza, rat, chicken]
+
+let curY = 0;           //Helps track the current height of the sandwhich
+let lastIngred = bread; //defaulting prevIngred to bread
+let previewIngred = bread;
+
+//function returns creates and returns a random ingredient
+function randIngred(){
+    let ingredIdx = Math.round(Math.random() * 6);      //always get a random number for random asset thing
+    let ingred = document.createElement("a-entity");    //will alwasy be making an a-entity type no matter what asset
+
+    let asset = ingredList[ingredIdx]; //get the ingredient that was chosen at random
+
+    //setting attributes of bread model
+    ingred.setAttribute("id", asset.id);
+    ingred.setAttribute("scale", asset.scale);
+    ingred.setAttribute("gltf-model", asset.model);
+    ingred.setAttribute("rotation", asset.rotation);
+
+    //getting proper y position based off height of previous ingred, current ingred, and total height
+    let yPos = (asset.height/2) + (lastIngred.height/2) + asset.oriPos[1] + curY;
+    //curY = yPos;
+
+    //setting the position of the bread based off of required tweaks
+    ingred.setAttribute("position", {x:asset.oriPos[0], y:yPos, z:asset.oriPos[2]});
+    previewIngred = asset; //save the asset for the next ingredient
+
+    return ingred;
+
+}
+
 window.onload = function(){
-    
-    //list of props
-    const bread     = new assetProp("breadIngred", "#bread_model", "90 0 90", "0.15 0.15 0.15", [0.25, -0.15, 0],  0.2);
-    const cheese    = new assetProp("cheeseIngred", "#cheese_model", "0 0 0", "0.75 0.45 0.75", [0, 0, 0],  0.23);
-    const tomato    = new assetProp("tomIngred", "#tomato_model", "0 0 0", "7.5 7.5 7.5", [0, 0, 0],  0.07);
-    const meat      = new assetProp("meatIngred", "#meat_model", "0 0 -45", "0.002 0.002 0.002", [-0.3, -0.05, 0],  0.3);
-    const pizza     = new assetProp("pizIngred", "#pizza_model", "0 0 0", "0.04 0.04 0.04", [0, 0, 0],  0.04);
-    const rat       = new assetProp("ratIngred", "#rat_model", "90 0 0", "0.003 0.003 0.003", [0, 0, -0.2],  0.1);
-    const chicken   = new assetProp("chickIngred", "#chicken_model", "0 0 0", "0.02 0.02 0.02", [0, 0.07, 0],  0.17);
-    
-    let ingredList = [bread, cheese, tomato, meat, pizza, rat, chicken]
 
     let scene = document.querySelector("a-scene");
     let btn = document.getElementById("btn");
@@ -32,9 +61,6 @@ window.onload = function(){
     sandwhich.setAttribute("id", "mainSandwhich");
     sandwhich.setAttribute("position", {x:3, y:1.1, z:0});
     scene.append(sandwhich);
-    
-    let curY = 0;           //Helps track the current height of the sandwhich
-    let prevIngred = bread; //defaulting prevIngred to bread
 
     let sandNum = 0; //tracks number of items that make up the sandwhich
 
@@ -55,34 +81,54 @@ window.onload = function(){
             //setting the position of the bread based off of required tweaks
             ingred.setAttribute("position", {x:bread.oriPos[0], y:bread.height/2, z:bread.oriPos[2]});
 
-            curY = bread.height/2 -0.15;
-
-        } else {
-
-            let asset = ingredList[ingredIdx]; //get the ingredient that was chosen at random
-
-            //setting attributes of bread model
-            ingred.setAttribute("id", asset.id);
-            ingred.setAttribute("scale", asset.scale);
-            ingred.setAttribute("gltf-model", asset.model);
-            ingred.setAttribute("rotation", asset.rotation);
-
-            //getting proper y position based off height of previous ingred, current ingred, and total height
-            let yPos = (asset.height/2) + (prevIngred.height/2) + asset.oriPos[1] +curY;
-            curY = yPos;
+            sandwhich.appendChild(ingred);
+            curY = bread.height/2;
             console.log(curY);
 
-            //setting the position of the bread based off of required tweaks
-            ingred.setAttribute("position", {x:asset.oriPos[0], y:yPos, z:asset.oriPos[2]});
+        } else {
             
-            prevIngred = asset; //save the asset for the next ingredient
-            
+            lastIngred = previewIngred;
+            console.log(lastIngred);
+            sandNum++;
+            //update current y
+            //some reason it's stopping
+
         }
 
-        sandwhich.appendChild(ingred);
+        
         sandNum++;
 
     });
+
+    //cycles through sandwhich ingredients
+    setInterval(function(){
+
+        //verify that there is bread on the table
+        if(sandNum == 1){
+            previewIngred = randIngred();
+            sandwhich.append(previewIngred);
+            sandNum++;
+
+        } else if(sandNum > 1){
+            
+            let foo = 2
+
+            //if(sandNum == sandwhich.children.length)
+
+            if(foo == 0){
+                sandwhich.removeChild(sandwhich.lastChild);
+            }
+            previewIngred = randIngred(); 
+            sandwhich.append(previewIngred);
+
+            //issue with returning class object and element object
+            //held within previewIngred and lastIngred
+            //might need to make another variable
+        }
+        
+
+    }, 1000);
+
     
 };
 

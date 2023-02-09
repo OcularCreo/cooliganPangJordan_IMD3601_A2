@@ -13,14 +13,15 @@
 
             <!--all used assets-->
             <a-assets timeout="10000">
-                <a-asset-item id="bread_model"  src="assets/models/low_poly_bread/scene.gltf"></a-asset-item>
-                <a-asset-item id="cheese_model" src="assets/models/cheese/scene.gltf"></a-asset-item>
-                <a-asset-item id="tomato_model" src="assets/models/trattoria_frenetica_-_low_poly_tomato_uncooked/scene.gltf"></a-asset-item>
-                <a-asset-item id="meat_model" src="assets/models/meat-_lowpoly/scene.gltf"></a-asset-item>
-                <a-asset-item id="fish_model" src="assets/models/fish_low_poly/scene.gltf"></a-asset-item>
-                <a-asset-item id="pizza_model" src="assets/models/pizza/scene.gltf"></a-asset-item>
-                <a-asset-item id="rat_model"    src="assets/models/low_poly_rat/scene.gltf"></a-asset-item>
+                <a-asset-item id="bread_model"      src="assets/models/low_poly_bread/scene.gltf"></a-asset-item>
+                <a-asset-item id="cheese_model"     src="assets/models/cheese/scene.gltf"></a-asset-item>
+                <a-asset-item id="tomato_model"     src="assets/models/trattoria_frenetica_-_low_poly_tomato_uncooked/scene.gltf"></a-asset-item>
+                <a-asset-item id="meat_model"       src="assets/models/meat-_lowpoly/scene.gltf"></a-asset-item>
+                <a-asset-item id="fish_model"       src="assets/models/fish_low_poly/scene.gltf"></a-asset-item>
+                <a-asset-item id="pizza_model"      src="assets/models/pizza/scene.gltf"></a-asset-item>
+                <a-asset-item id="rat_model"        src="assets/models/low_poly_rat/scene.gltf"></a-asset-item>
                 <a-asset-item id="chicken_model"    src="assets/models/roasted_chicken/scene.gltf"></a-asset-item>
+                <a-asset-item id="betterBread_model" src="assets/models/new_bread/scene.gltf"></a-asset-item>
             </a-assets>
 
 
@@ -32,7 +33,7 @@
             <a-entity id="pizza_test" position="0 0.7 0" rotation="0 0 0" scale="0.04 0.04 0.04" gltf-model="#pizza_model"></a-entity>
             <a-entity id="rat_test" position="0 0.75 -0.2" rotation="90 0 0" scale="0.003 0.003 0.003" gltf-model="#rat_model"></a-entity>
             <a-entity id="chicken_test" position="0 1 0" rotation="0 0 0" scale="0.02 0.02 0.02" gltf-model="#chicken_model"></a-entity>
-            <a-entity id="breadThing" position="0.25 1.2 0" rotation="90 0 90" scale="0.15 0.15 0.15" gltf-model="#bread_model"></a-entity>
+            <a-entity id="breadThing" position="0.25 1.2 0" rotation="90 0 90" scale="0.15 0.15 0.15" gltf-model="#betterBread_model"></a-entity>
             
             <!--general group for mesuraments-->
             <!--
@@ -42,7 +43,8 @@
                 
                 ASSET       HEIGHT IN UNITS
 
-                Bread:      0.2 
+                Bread:      0.08 (add 0.09 to center the bread) 
+                New Bread:  0.06
                 Cheese:     0.23 
                 Tomato:     0.07 
                 Meat        0.3  (subtract -0.05 from yPos since it's not centred)
@@ -52,12 +54,6 @@
 
 
             -->
-
-            <a-entity position="-2 1 0">
-                <a-box position="0 0 0" height="0.1" width="0.1" depth="0.1"></a-box>
-                <a-box position="0 0.2 0" height="0.3" width="0.1" depth="0.1" color="green"></a-box>
-                <a-box position="0 0.55 0" height="0.4" width="0.1" depth="0.1" color="black"></a-box>
-            </a-entity>
 
             <!--Setting up the enviornment-->
             <a-entity environment="preset:default;"></a-entity>
