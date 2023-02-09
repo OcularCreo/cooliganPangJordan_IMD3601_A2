@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Rat
+* source:	https://sketchfab.com/3d-models/low-poly-rat-27c0838c5e574f0a8049e37275395474
+* author:	djloupe (https://sketchfab.com/djloupe)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Rat" (https://sketchfab.com/3d-models/low-poly-rat-27c0838c5e574f0a8049e37275395474) by djloupe (https://sketchfab.com/djloupe) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

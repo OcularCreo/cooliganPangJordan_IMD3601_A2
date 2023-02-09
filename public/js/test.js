@@ -7,11 +7,14 @@ window.onload = function(){
     sandwhich.setAttribute("id", "mainSandwhich");
     sandwhich.setAttribute("position", {x:3, y:1.1, z:0});
     scene.append(sandwhich);
-
+    
     //current top height of the sandwhich
     let curX = 0; 
     let curY = 0; 
     let curZ = 0;
+    
+    
+
 
     let sandNum = 0; //tracks number of items that make up the sandwhich
 
@@ -51,9 +54,14 @@ window.onload = function(){
         sandNum++;
 
     });
+    
+};
 
+setInterval(function(){
 
-    /*btn.addEventListener('click', function(){
+}, milliseconds);
+
+/*btn.addEventListener('click', function(){
         let box         = document.createElement("a-box");
         let sandwhich   = document.createElement("a-entity");
 
@@ -72,9 +80,5 @@ window.onload = function(){
         console.log(xPos);
 
     });*/
-    
-};
-
-
 
 
