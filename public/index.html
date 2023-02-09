@@ -36,18 +36,22 @@
             
             <!--general group for mesuraments-->
             <!--
-                Bread Height: 
+                Half of obj 1 height
+                Half of obj 2 height
+                add together and apply height (remember to track current height too)
                 
+                ASSET       HEIGHT IN UNITS
+
+                Bread:      0.2 
+                Cheese:     0.23 
+                Tomato:     0.07 
+                Meat        0.3  (subtract -0.05 from yPos since it's not centred)
+                Pizza:      0.04 
+                Rat:        0.14
+                Chicken:    0.3  (add 0.07 to height to center it)
+
 
             -->
-            <a-entity position="-2 1 0">
-
-                <a-entity id="breadThing" position="0.25 0.15 0" rotation="90 0 90" scale="0.15 0.15 0.15" gltf-model="#bread_model"></a-entity>
-                <a-box position="0 0 0.3" width="0.1" height="0.1" depth="0.1"></a-box>
-                <a-box position="0 0.15 0.3" width="0.1" height="0.2" depth="0.1" color="green"></a-box>
-                <a-box position="0 0.3 0.3" width="0.1" height="0.1" depth="0.1"></a-box>
-
-            </a-entity>
 
             <!--Setting up the enviornment-->
             <a-entity environment="preset:default;"></a-entity>
