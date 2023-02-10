@@ -12,19 +12,20 @@ class assetInfo {
 }
 
 //list of props
-const bread     = new assetInfo("breadIngred", "#betterBread_model", "0 0 0", "0.8 0.8 0.8", [0, 0.0, 0],  0.08);
-const cheese    = new assetInfo("cheeseIngred", "#cheese_model", "0 0 0", "0.75 0.45 0.75", [0, 0, 0],  0.23);
+const bread     = new assetInfo("breadIngred", "#betterBread_model", "0 0 0", "0.8 0.8 0.8", [0, 0, 0],  0.05);
+const cheese    = new assetInfo("cheeseIngred", "#cheese_model", "0 0 0", "0.75 0.45 0.75", [0, 0, 0],  0.167);
 const tomato    = new assetInfo("tomIngred", "#tomato_model", "0 0 0", "7.5 7.5 7.5", [0, 0, 0],  0.07);
 const meat      = new assetInfo("meatIngred", "#meat_model", "0 0 -45", "0.002 0.002 0.002", [-0.3, -0.05, 0],  0.3);
 const pizza     = new assetInfo("pizIngred", "#pizza_model", "0 0 0", "0.04 0.04 0.04", [0, 0, 0],  0.04);
 const rat       = new assetInfo("ratIngred", "#rat_model", "90 0 0", "0.003 0.003 0.003", [0, 0, -0.2],  0.1);
-const chicken   = new assetInfo("chickIngred", "#chicken_model", "0 0 0", "0.02 0.02 0.02", [0, 0.07, 0],  0.17);
+const chicken   = new assetInfo("chickIngred", "#chicken_model", "0 0 0", "0.02 0.02 0.02", [0, 0.07, 0],  0.15);
 
 let ingredList = [bread, cheese, tomato, meat, pizza, rat, chicken]
 
-let curY = 0;           //Helps track the current height of the sandwhich
-let lastIngred = bread; //defaulting prevIngred to bread
-let previewIngred_asset;
+let curY = 0;               //Helps track the current height of the sandwhich
+let lastIngred = bread;     //defaulting prevIngred to bread //tracks last selected asset info
+let cycleIngred = bread;    //variable to track previous asset on display info
+let previewIngred_asset;    //variable to track previous asset on display
 
 //function returns creates and returns a random ingredient
 function makeIngred(ingredInfo, sandNum){
@@ -49,7 +50,7 @@ function makeIngred(ingredInfo, sandNum){
         ingred.setAttribute("position", {x:ingredInfo.oriPos[0], y:yPos, z:ingredInfo.oriPos[2]});
     }
 
-    
+    console.log(lastIngred.height);
 
     return ingred;
 
@@ -104,8 +105,8 @@ window.onload = function(){
             } else {
                 console.log(" -- ENTERED NEW --");
                 
+                lastIngred = cycleIngred;
                 curY += (randomIngred.height / 2) + (lastIngred.height / 2);
-                lastIngred = randomIngred;
             }
 
         }
@@ -114,11 +115,11 @@ window.onload = function(){
 
             sandwhich.removeChild(sandwhich.lastChild);
             sandwhich.append(previewIngred_asset);
-
+            cycleIngred = randomIngred;
         }
         
 
-    }, 1000);
+    }, 300);
 
     
 };
