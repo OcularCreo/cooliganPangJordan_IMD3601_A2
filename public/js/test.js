@@ -1,6 +1,6 @@
 
 //used for storing needed info of props
-class assetProp {
+class assetInfo {
     constructor(id, model, rotation, scale, oriPos, height){
         this.id         = id; 
         this.model      = model;
@@ -12,40 +12,44 @@ class assetProp {
 }
 
 //list of props
-const bread     = new assetProp("breadIngred", "#betterBread_model", "0 0 0", "0.8 0.8 0.8", [0, 0.0, 0],  0.08);
-const cheese    = new assetProp("cheeseIngred", "#cheese_model", "0 0 0", "0.75 0.45 0.75", [0, 0, 0],  0.23);
-const tomato    = new assetProp("tomIngred", "#tomato_model", "0 0 0", "7.5 7.5 7.5", [0, 0, 0],  0.07);
-const meat      = new assetProp("meatIngred", "#meat_model", "0 0 -45", "0.002 0.002 0.002", [-0.3, -0.05, 0],  0.3);
-const pizza     = new assetProp("pizIngred", "#pizza_model", "0 0 0", "0.04 0.04 0.04", [0, 0, 0],  0.04);
-const rat       = new assetProp("ratIngred", "#rat_model", "90 0 0", "0.003 0.003 0.003", [0, 0, -0.2],  0.1);
-const chicken   = new assetProp("chickIngred", "#chicken_model", "0 0 0", "0.02 0.02 0.02", [0, 0.07, 0],  0.17);
+const bread     = new assetInfo("breadIngred", "#betterBread_model", "0 0 0", "0.8 0.8 0.8", [0, 0.0, 0],  0.08);
+const cheese    = new assetInfo("cheeseIngred", "#cheese_model", "0 0 0", "0.75 0.45 0.75", [0, 0, 0],  0.23);
+const tomato    = new assetInfo("tomIngred", "#tomato_model", "0 0 0", "7.5 7.5 7.5", [0, 0, 0],  0.07);
+const meat      = new assetInfo("meatIngred", "#meat_model", "0 0 -45", "0.002 0.002 0.002", [-0.3, -0.05, 0],  0.3);
+const pizza     = new assetInfo("pizIngred", "#pizza_model", "0 0 0", "0.04 0.04 0.04", [0, 0, 0],  0.04);
+const rat       = new assetInfo("ratIngred", "#rat_model", "90 0 0", "0.003 0.003 0.003", [0, 0, -0.2],  0.1);
+const chicken   = new assetInfo("chickIngred", "#chicken_model", "0 0 0", "0.02 0.02 0.02", [0, 0.07, 0],  0.17);
 
 let ingredList = [bread, cheese, tomato, meat, pizza, rat, chicken]
 
 let curY = 0;           //Helps track the current height of the sandwhich
 let lastIngred = bread; //defaulting prevIngred to bread
-let previewIngred = bread;
+let previewIngred_asset;
 
 //function returns creates and returns a random ingredient
-function randIngred(){
-    let ingredIdx = Math.round(Math.random() * 6);      //always get a random number for random asset thing
+function makeIngred(ingredInfo, sandNum){
+    
     let ingred = document.createElement("a-entity");    //will alwasy be making an a-entity type no matter what asset
 
-    let asset = ingredList[ingredIdx]; //get the ingredient that was chosen at random
-
     //setting attributes of bread model
-    ingred.setAttribute("id", asset.id);
-    ingred.setAttribute("scale", asset.scale);
-    ingred.setAttribute("gltf-model", asset.model);
-    ingred.setAttribute("rotation", asset.rotation);
+    ingred.setAttribute("id", ingredInfo.id);
+    ingred.setAttribute("scale", ingredInfo.scale);
+    ingred.setAttribute("gltf-model", ingredInfo.model);
+    ingred.setAttribute("rotation", ingredInfo.rotation);
 
     //getting proper y position based off height of previous ingred, current ingred, and total height
-    let yPos = (asset.height/2) + (lastIngred.height/2) + asset.oriPos[1] + curY;
-    //curY = yPos;
+    let yPos = (ingredInfo.height/2) + (lastIngred.height/2) + ingredInfo.oriPos[1] + curY;
 
-    //setting the position of the bread based off of required tweaks
-    ingred.setAttribute("position", {x:asset.oriPos[0], y:yPos, z:asset.oriPos[2]});
-    previewIngred = asset; //save the asset for the next ingredient
+    //special case for setting the first bread height
+    if(sandNum == 0){
+        ingred.setAttribute("position", {x:bread.oriPos[0], y:bread.height/2, z:bread.oriPos[2]});
+        //curY = bread.height/2;
+    } else {
+        //setting the position of the bread based off of required tweaks
+        ingred.setAttribute("position", {x:ingredInfo.oriPos[0], y:yPos, z:ingredInfo.oriPos[2]});
+    }
+
+    
 
     return ingred;
 
@@ -63,67 +67,54 @@ window.onload = function(){
     scene.append(sandwhich);
 
     let sandNum = 0; //tracks number of items that make up the sandwhich
+    let added = 1;  //bool for when new ingredient has been added
 
     //Add topping to sandwhich
     btn.addEventListener('click', function(){
-       
-        let ingredIdx = Math.round(Math.random() * 6);      //always get a random number for random asset thing
-        let ingred = document.createElement("a-entity");    //will alwasy be making an a-entity type no matter what asset
 
         if(sandNum == 0){
-            
-            //setting attributes of bread model
-            ingred.setAttribute("id", bread.id);
-            ingred.setAttribute("scale", bread.scale);
-            ingred.setAttribute("gltf-model", bread.model);
-            ingred.setAttribute("rotation", bread.rotation);
 
-            //setting the position of the bread based off of required tweaks
-            ingred.setAttribute("position", {x:bread.oriPos[0], y:bread.height/2, z:bread.oriPos[2]});
-
-            sandwhich.appendChild(ingred);
-            curY = bread.height/2;
-            console.log(curY);
-
-        } else {
-            
-            lastIngred = previewIngred;
-            console.log(lastIngred);
-            sandNum++;
-            //update current y
-            //some reason it's stopping
+            //make the first ingredient (should be the bottom piece of bread)
+            let firstBread = makeIngred(bread, sandNum); 
+            sandwhich.appendChild(firstBread);
 
         }
-
         
+        added = 1;
         sandNum++;
 
     });
 
     //cycles through sandwhich ingredients
     setInterval(function(){
+        
+        let randomIngred = ingredList[Math.round(Math.random() * 6)];   //get a random ingredient info
+        previewIngred_asset = makeIngred(randomIngred, sandNum);        //create the selected ingredient
 
-        //verify that there is bread on the table
-        if(sandNum == 1){
-            previewIngred = randIngred();
-            sandwhich.append(previewIngred);
-            sandNum++;
+        //add the ingredient when the user clicks the button or if it's the first ingred (bread)
+        if(added && (sandNum > 0)){
+            sandwhich.append(previewIngred_asset);
+            added = 0;
 
-        } else if(sandNum > 1){
-            
-            let foo = 2
-
-            //if(sandNum == sandwhich.children.length)
-
-            if(foo == 0){
-                sandwhich.removeChild(sandwhich.lastChild);
+            //first situation for adding first ingredient
+            if(sandNum == 1){
+                
+                console.log("ENTERED 0001");
+                curY = bread.height/2;
+            } else {
+                console.log(" -- ENTERED NEW --");
+                
+                curY += (randomIngred.height / 2) + (lastIngred.height / 2);
+                lastIngred = randomIngred;
             }
-            previewIngred = randIngred(); 
-            sandwhich.append(previewIngred);
 
-            //issue with returning class object and element object
-            //held within previewIngred and lastIngred
-            //might need to make another variable
+        }
+        //when an ingredient hasn't been chosen, cycle through the ingredients
+        else if(!added){
+
+            sandwhich.removeChild(sandwhich.lastChild);
+            sandwhich.append(previewIngred_asset);
+
         }
         
 
@@ -131,32 +122,3 @@ window.onload = function(){
 
     
 };
-
-/*
-setInterval(function(){
-
-}, milliseconds);
-
-*/
-
-/*btn.addEventListener('click', function(){
-        let box         = document.createElement("a-box");
-        let sandwhich   = document.createElement("a-entity");
-
-        let xPos = Math.round(Math.random() * 10);
-        let zPos = Math.round(Math.random() * 10);
-
-        let position = [xPos, 5, zPos];
-
-        box.setAttribute("position", {x:xPos, y:2, z:zPos});
-        box.setAttribute("id", "test");
-
-        sandwhich.appendChild(box);
-        scene.append(sandwhich);
-
-        console.log("Box Created");
-        console.log(xPos);
-
-    });*/
-
-
