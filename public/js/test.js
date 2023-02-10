@@ -1,5 +1,6 @@
 
 //used for storing needed info of props
+//PROBABLY NEED TO ADD A CLASS TO THIS TOO!
 class assetInfo {
     constructor(id, model, rotation, scale, oriPos, height){
         this.id         = id; 
@@ -60,25 +61,29 @@ window.onload = function(){
     let btn_start   = document.getElementById("btn_start"); //button to start sandwhich
     let btn_end     = document.getElementById("btn_end");   //button to finish sandwhich
 
-    //sandwhich group
-    let sandwhich = document.createElement("a-entity");
-    sandwhich.setAttribute("id", "mainSandwhich");
-    sandwhich.setAttribute("position", {x:3, y:1.1, z:0});
-    scene.append(sandwhich);
-
     let sandNum = 0; //tracks number of items that make up the sandwhich
     let added = 1;  //bool for when new ingredient has been added
-    let makingSand = 0;
+    let makingSand = 1;
+
+    let sandwhich;  //represents group/parent of the sandwhich and it's ingredients
 
     //begin building sandwhich and add ingredients to sandwhich
     btn_start.addEventListener('click', function(){
 
         if(sandNum == 0){
 
+            //make the sandwhich group
+            sandwhich = document.createElement("a-entity");
+            sandwhich.setAttribute("id", "mainSandwhich");
+            sandwhich.setAttribute("class", "interactive");
+            sandwhich.setAttribute("position", {x:3, y:1.1, z:0});
+            scene.append(sandwhich);
+
             //make the first ingredient (should be the bottom piece of bread)
             let firstBread = makeIngred(bread, sandNum); 
             sandwhich.appendChild(firstBread);
 
+            makingSand = 1;
         }
         
         added = 1;
@@ -89,10 +94,13 @@ window.onload = function(){
     //finish the sandwhich
     btn_end.addEventListener('click', function(){
 
+        //add the last piece of bread
         let lastBread = makeIngred(bread, sandNum);
+        sandwhich.removeChild(sandwhich.lastChild); //possibly remove this?
         sandwhich.appendChild(lastBread);
 
         sandNum = 0;
+        makingSand = 0;
 
     });
 
