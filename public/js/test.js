@@ -3,6 +3,7 @@
 //PROBABLY NEED TO ADD A CLASS TO THIS TOO!
 class assetInfo {
     constructor(id, model, rotation, scale, oriPos, height){
+        this.class      = "sandwhichIngredient interactive";
         this.id         = id; 
         this.model      = model;
         this.rotation   = rotation; 
@@ -29,7 +30,7 @@ let cycleIngred = bread;    //variable to track previous asset on display info
 let previous_asset = makeIngred(bread, 0);    //variable to track previous asset on display
 
 //function returns creates and returns a random ingredient
-function makeIngred(ingredInfo, sandNum){
+function makeIngred(ingredInfo){
     
     let ingred = document.createElement("a-entity");    //will alwasy be making an a-entity type no matter what asset
 
@@ -38,18 +39,13 @@ function makeIngred(ingredInfo, sandNum){
     ingred.setAttribute("scale", ingredInfo.scale);
     ingred.setAttribute("gltf-model", ingredInfo.model);
     ingred.setAttribute("rotation", ingredInfo.rotation);
+    ingred.setAttribute("class", ingredInfo.class);
 
     //getting proper y position based off height of previous ingred, current ingred, and total height
     let yPos = (ingredInfo.height/2) + (lastIngred.height/2) + ingredInfo.oriPos[1] + curY;
 
-    //special case for setting the first bread height
-    if(sandNum == 0){
-        ingred.setAttribute("position", {x:bread.oriPos[0], y:bread.height/2, z:bread.oriPos[2]});
-        //curY = bread.height/2;
-    } else {
-        //setting the position of the bread based off of required tweaks
-        ingred.setAttribute("position", {x:ingredInfo.oriPos[0], y:yPos, z:ingredInfo.oriPos[2]});
-    }
+    //setting the position of the bread based off of required tweaks
+    ingred.setAttribute("position", {x:ingredInfo.oriPos[0], y:yPos, z:ingredInfo.oriPos[2]});
 
     return ingred;
 
@@ -61,31 +57,33 @@ window.onload = function(){
     let btn_start   = document.getElementById("btn_start"); //button to start sandwhich
     let btn_end     = document.getElementById("btn_end");   //button to finish sandwhich
 
-    let sandNum = 0; //tracks number of items that make up the sandwhich
-    let added = 1;  //bool for when new ingredient has been added
-    let makingSand = 1;
+    let sandNum = 0;    //tracks number of items that make up the sandwhich
+    let added = 1;      //bool for when new ingredient has been added
+    let makingSand = 1; //tracksi if sandwhich is being made
+    let eaten = 0;
 
-    let sandwhich;  //represents group/parent of the sandwhich and it's ingredients
+    //represents group/parent of the sandwhich and it's ingredients
+    let sandwhich = document.createElement("a-entity");  
+    sandwhich.setAttribute("id", "mainSandwhich");
+    sandwhich.setAttribute("class", "interactive");
+    sandwhich.setAttribute("position", {x:3, y:1.1, z:0});
+    sandwhich.setAttribute("sound", "src: #eating_sound; on:click;");
+    scene.append(sandwhich);
 
-    //begin building sandwhich and add ingredients to sandwhich
+    let randIngredInfo = ingredList[Math.floor(Math.random() * 6)];   //get a random ingredient info
+    let randIngredAsset = makeIngred(randIngredInfo);                 //create the selected ingredient
+
+    //begin building sandwhich or add ingredients to sandwhich
     btn_start.addEventListener('click', function(){
-
-        if(sandNum == 0){
-
-            //make the sandwhich group
-            sandwhich = document.createElement("a-entity");
-            sandwhich.setAttribute("id", "mainSandwhich");
-            sandwhich.setAttribute("class", "interactive");
-            sandwhich.setAttribute("position", {x:3, y:1.1, z:0});
-            scene.append(sandwhich);
-
-            //make the first ingredient (should be the bottom piece of bread)
-            let firstBread = makeIngred(bread, sandNum); 
-            sandwhich.appendChild(firstBread);
-
-            makingSand = 1;
-        }
         
+        
+        if(sandNum == 0){
+            randIngredInfo = bread;
+            randIngredAsset = makeIngred(randIngredInfo);
+            makingSand = 1;
+            curY = 0;
+        }
+
         added = 1;
         sandNum++;
 
@@ -104,77 +102,47 @@ window.onload = function(){
 
     });
 
+    //deletes the created sandwhich when clicked. This will be sort of like an "eating" action
+    sandwhich.addEventListener('click', function(){
+        
+        //verifiy that the sandwhich isn't currently being constructed
+        if(makingSand == 0){
+            //delete all children of the sandwhich group
+            while(sandwhich.firstChild){
+                sandwhich.removeChild(sandwhich.firstChild);    
+            }
+        }
+
+
+    });
+
     //cycles through sandwhich ingredients
     setInterval(function(){
-        
-        let randIngredInfo = ingredList[Math.round(Math.random() * 6)];   //get a random ingredient info
-        let randIngredAsset = makeIngred(randIngredInfo, sandNum);        //create the selected ingredient
 
-        console.log(curY);
+        //dont do anything if there is nothing in the sandwhich
+        if(!sandNum){
+            return;
+        }
 
         //add the ingredient when the user clicks the button or if it's the first ingred (bread)
-        if(added && (sandNum > 0)){
+        if(added){
 
-            sandwhich.append(randIngredAsset);
             added = 0;
-
-            //first situation for adding first ingredient
-            if(sandNum == 1){
-                
-                console.log("ENTERED 0001");
-                curY = bread.height/2;
-            } else {
-                console.log(" -- ENTERED NEW --");
-                lastIngred = cycleIngred;
-                curY += (randIngredInfo.height / 2) + (lastIngred.height / 2);
-            }
-
-        }
-        //when an ingredient hasn't been chosen, cycle through the ingredients
-        else if(!added && (sandNum > 0)){
-
-            sandwhich.removeChild(sandwhich.lastChild);
+            randIngredAsset = makeIngred(randIngredInfo);        //create the selected ingredient
             sandwhich.append(randIngredAsset);
-            cycleIngred = randIngredInfo;
-        }
-        
 
-    }, 250);
+            curY += (randIngredInfo.height / 2) + (lastIngred.height / 2);
+            lastIngred = randIngredInfo;
+
+        } else {
+            sandwhich.removeChild(sandwhich.lastChild);
+        }
+
+        randIngredInfo = ingredList[Math.floor(Math.random() * 6)];   //get a random ingredient info
+        randIngredAsset = makeIngred(randIngredInfo);        //create the selected ingredient
+        sandwhich.append(randIngredAsset);
+
+    }, 500);
 
     
 };
-
-/*
-
-        let randomIngred = ingredList[Math.round(Math.random() * 6)];   //get a random ingredient info
-        let previewIngred_asset = makeIngred(randomIngred, sandNum);        //create the selected ingredient
-
-        console.log(curY);
-
-        //add the ingredient when the user clicks the button or if it's the first ingred (bread)
-        if(added && (sandNum > 0)){
-            sandwhich.append(previewIngred_asset);
-            added = 0;
-
-            //first situation for adding first ingredient
-            if(sandNum == 1){
-                
-                console.log("ENTERED 0001");
-                curY = bread.height/2;
-            } else {
-                console.log(" -- ENTERED NEW --");
-                
-                lastIngred = cycleIngred;
-                curY += (randomIngred.height / 2) + (lastIngred.height / 2);
-            }
-
-        }
-        //when an ingredient hasn't been chosen, cycle through the ingredients
-        else if(!added){
-
-            sandwhich.removeChild(sandwhich.lastChild);
-            sandwhich.append(previewIngred_asset);
-            cycleIngred = randomIngred;
-        }
-
-*/
