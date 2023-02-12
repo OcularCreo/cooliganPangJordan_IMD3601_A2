@@ -45,7 +45,7 @@
             </a-assets>
 
             <!--Setting up the enviornment-->
-            <a-entity environment="preset:default;"></a-entity>
+            <a-entity environment="preset:goaland;"></a-entity>
             
             <a-camera wasd-controls look-controls position="0 1.6 0">
                 <a-entity cursor="rayOrigin:mouse;" raycaster="far:20; interval:200; objects:.interactive;"></a-entity>
@@ -53,8 +53,8 @@
 
             <!--In code asset of a table-->
             <a-entity id="table" position="3 0 0" id="table">
-                <a-cylinder position="0 1 0" radius="1.5" height="0.1" color="#4B371C"></a-cylinder>
-                <a-cylinder position="0 0.5 0" radius="0.15" height="1" color="#4B371C"></a-cylinder> 
+                <a-cylinder position="0 1 0" radius="1.5" height="0.1" color="#313638"></a-cylinder>
+                <a-cylinder position="0 0.5 0" radius="0.15" height="1" color="#313638"></a-cylinder> 
             </a-entity>
             
             <!--end button -->
@@ -64,8 +64,7 @@
                             animation__mouseleave="property:material.color; type:color; to:rgb(255, 100, 100); startEvents:mouseleave; dur:200;"
                             animation__click="property:position.y; to:0.8; from:0.75; startEvents:click; dur:300;"
                             ></a-entity>
-                <a-entity position="0 0.3 0" geometry="primitive:box; width:0.5; depth:0.5; height:0.6;" material="color:white"></a-entity>
-                <a-box position="0 0.4 0" height="0.8" width="0.5" depth="0.5" color="white"></a-box>
+                <a-box position="0 0.4 0" height="0.8" width="0.5" depth="0.5" color="#313638"></a-box>
             </a-entity>
             
             <!--Starting button -->
@@ -77,8 +76,34 @@
                     <a-box class="interactive" position="0 0 0" width="0.4" depth="0.13" height="0.2" color="green"></a-box>
                 
                 </a-entity>
-                <a-box position="0 0.4 0" height="0.8" width="0.5" depth="0.5" color="white"></a-box>
+                <a-box position="0 0.4 0" height="0.8" width="0.5" depth="0.5" color="#313638"></a-box>
             </a-entity>
+
+            <!-- Kitchen set -->
+            <!-- WALLS -->
+            <a-box position="6.5 2 0" width="0.05" height="4" depth="8" color="#EF6461"></a-box>
+            <a-box position="2.5 2 -4" width="8" height="4" depth="0.05" color="#EF6461"></a-box>
+            <a-box position="2.5 2 4" width="8" height="4" depth="0.05" color="#EF6461"></a-box>
+
+            <!-- LARGE CUPBAORD-->
+            <a-box position="2.72 2 -3.6" width="2.5" height="4" depth="0.75" color="#E4B363" geometry="depth: 1" id="cupboard"></a-box>
+            
+            <!-- SMALL CUPBOARDS -->
+            <a-box position="5.21 3.24 -3.6" width="0.84" height="1.5" depth="0.86" color="#E4B363" id="smallcupboard"></a-box>
+            <a-box position="6.07 3.24 -3.6" width="0.84" height="1.5" depth="0.86" color="#E4B363" id="smallcupboard"></a-box>
+            <a-box position="4.35 3.24 -3.6" width="0.84" height="1.5" depth="0.86" color="#E4B363" id="smallcupboard"></a-box>
+
+            <!-- COUNTERS -->
+            <a-box position="4.16 0.5 3.61" width="2.5" height="1.15" depth="0.75" color="#E0DFD5" id="counter"></a-box>
+            <a-box position="5.91 0.5 2.95" width="1.15" height="1.15" depth="2.07" color="#E0DFD5" id="counter"></a-box>
+            <a-box position="5.96 0.5 -1.3" width="1.15" height="1" depth="3.9" color="#E0DFD5" id="counter"></a-box>
+            <a-box position="5.21 0.5 -3.6" width="2.5" height="1" depth="0.75" color="#E0DFD5" id="counter"></a-box>
+            
+            <!-- STOVE STUFF -->
+            <a-box position="6.03 2.56 2.61" width="0.88" height="0.15" depth="1" color="#313638" id="fancover"></a-box>
+            <a-box position="6.24 3.27 2.61" width="0.5" height="1.5" depth="0.46" color="#313638" id="fancover-2"></a-box>
+            <a-box position="6.03 1.04 2.61" width="0.88" height="0.15" depth="1" color="#313638" id="fancover-3"></a-box>
+
 
         </a-scene>
 
