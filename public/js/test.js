@@ -28,6 +28,7 @@ let curY = 0;               //Helps track the current height of the sandwich
 let lastIngred = bread;     //defaulting prevIngred to bread //tracks last selected asset info
 let cycleIngred = bread;    //variable to track previous asset on display info
 let previous_asset = makeIngred(bread, 0);    //variable to track previous asset on display
+let music = false;
 
 //function returns creates and returns a random ingredient
 function makeIngred(ingredInfo){
@@ -66,7 +67,7 @@ window.onload = function(){
     sandwich.setAttribute("id", "mainSandwich");
     sandwich.setAttribute("class", "interactive");
     sandwich.setAttribute("position", {x:3, y:1.1, z:0});
-    sandwich.setAttribute("sound", "src: #eating_sound; on:click;");
+    sandwich.setAttribute("sound", "src: #eating_sound; on:click; volume:5;");
     scene.append(sandwich);
 
     let randIngredInfo = ingredList[Math.floor(Math.random() * 6)];   //get a random ingredient info
@@ -84,6 +85,15 @@ window.onload = function(){
             makingSand = 1;
             curY = 0;
             sandNum = 0;
+        }
+
+        //if there is no music playing then play some music
+        if(!music){
+            let musicEl = document.createElement("a-entity");
+            musicEl.setAttribute("id", "musicPlayer");
+            musicEl.setAttribute("sound", "src:#bg_music; autoplay:true; loop:true;");
+            scene.append(musicEl);
+            music = true;
         }
 
         //tracking when an ingredient has been added to the sandwich
